@@ -1,0 +1,41 @@
+@startuml
+title SKILIKET IoT
+
+skinparam dpi 150
+skinparam componentStyle rectangle
+skinparam node {
+  BackgroundColor #F7F7F7
+  BorderColor #555555
+  FontColor #333333
+}
+skinparam cloud {
+  BackgroundColor #E6F0FF
+  BorderColor #3366CC
+}
+skinparam actorStyle awesome
+
+actor "Users\n(Students / Researchers)" as users
+
+node "ESP32 Sensor Node" as esp {
+  artifact "Sensors:\nCO₂, UV, Noise, Motion, Humidity"
+  artifact "Firmware (MQTT client)"
+}
+
+node "Raspberry Pi Gateway" as rpi {
+  component "MQTT Broker (Mosquitto)"
+  component "Local DB (SQLite / InfluxDB)"
+  component "Sync Service (Python)"
+}
+
+cloud "Cloud Platform" as cloud {
+  database "Supabase / PostgreSQL"
+  component "Dashboard (React + Vercel)"
+}
+
+users --> cloud : "HTTPS - View dashboard"
+esp --> rpi : "MQTT / Wi-Fi - Sensor data"
+rpi --> cloud : "HTTPS - Batch uploads"
+cloud --> users : "Data visualization\n& API access"
+
+@enduml
+

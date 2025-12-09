@@ -1,0 +1,35 @@
+@startuml
+title SKILIKET 2.0 - Data Flow Sequence for the prototype
+
+actor User
+participant "ESP32 Sensor Node" as esp
+participant "Raspberry Pi Gateway" as rpi
+participant "Local DB" as db
+participant "Cloud (Supabase)" as cloud
+participant "Dashboard (Vercel)" as dash
+participant "ML Service" as ml
+
+== Data Collection ==
+esp -> esp : Read sensors (CO₂, UV, Noise, etc.)
+esp -> rpi : Publish data via MQTT
+
+== Local Storage ==
+rpi -> db : Store data locally (timestamped)
+rpi -> db : Batch aggregation
+
+== Cloud Sync ==
+rpi -> cloud : Upload batch (HTTPS API)
+cloud -> cloud : Store in DB (PostgreSQL)
+
+== Visualization ==
+dash -> cloud : Fetch latest data
+cloud --> dash : Send JSON dataset
+User -> dash : Open dashboard (browser)
+dash --> User : Display charts / heatmap
+
+== Predictive Model ==
+ml -> cloud : Pull historical data
+ml -> ml : Train / infer environmental patterns
+
+@enduml
+
