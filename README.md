@@ -4,7 +4,7 @@ A full-stack IoT + AI platform for monitoring and modeling environmental conditi
 This repository serves as the **main entry point** and documentation hub for the entire system architecture.
 
 <p align="center">
-  <img src="./images/skiliket-logo.png" alt="skiliket-logo" width="200">
+  <img src="./images/skiliket-logo.png" alt="skiliket-logo" width="400">
 </p>
 
 ---
